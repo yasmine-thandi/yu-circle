@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@theme {
+    --color-off-white: #F3F3F3;
+    --color-grey: r gba(210, 213, 221, 0.5);
+    --color-grey-50: rgba(210, 213, 221, 1);
+    --color-slate: #292F36; 
+
+    --color-purple: #D8D9FA; 
+    --color-dark-purple: #B8BACF;
+
+    --color-light-green: #E8EBE4;
+    --color-dark-teal: #006D66;
+    --color-light-teal: #C3DADA;
+    --color-mint: rgba(3, 201, 188, 0.13);
+
+    --color-red: #AF0D1A;
+    --color-light-red: rgba(175, 13, 26, 0.16);
+
+    --font-sans: DM Sans , sans-serif;
+    --font-fancy: Space Grotesk , sans-serif; 
+
+    /* We will be using lg and full */
+    --radius-lg: 14px;
+
+}
