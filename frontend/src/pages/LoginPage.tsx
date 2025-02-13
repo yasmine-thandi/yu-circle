@@ -1,12 +1,17 @@
 import React from "react";
+import Header from "../components/Header";
 
 const LoginPage: React.FC = () => {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 text-black">
+    <>
+    <Header />
+    <main className="flex flex-col items-center">
 
-        Hello from login page
-
+      <p className="text-red text-3xl p-8 m-8 border b-red rounded-full">
+        Hello, from login page
+      </p>
     </main>
+    </>
   );
 };
 

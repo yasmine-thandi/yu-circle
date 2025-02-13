@@ -4,15 +4,19 @@ import DashboardPage from './pages/DashboardPage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import CommunityPage from './pages/CommunityPage'; 
+import MarketplacePage from './pages/MarketplacePage'; 
+import DiscoursePage from './pages/DiscoursePage'; 
 
 
 function App() {
   return (
-    <div>
+    <div className="bg-offwhite h-screen w-screen">
 
         <Routes>
 
           <Route path="/" element={<CommunityPage />} />
+          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/discourse" element={<DiscoursePage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />

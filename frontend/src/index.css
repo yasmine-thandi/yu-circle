@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-    --color-off-white: #F3F3F3;
-    --color-grey: r gba(210, 213, 221, 0.5);
+    --color-offwhite: #F3F3F3;
+    --color-grey: rgba(210, 213, 221, 0.5);
     --color-grey-50: rgba(210, 213, 221, 1);
     --color-slate: #292F36; 
 

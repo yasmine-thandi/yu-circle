@@ -1,12 +1,18 @@
 import React from "react";
 
+import Header from "../components/Header";
+
 const CommunityPage: React.FC = () => {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
-      <p className="text-red text-3xl border p-8 b-red rounded-full">
+    <>
+    <Header />
+    <main className="flex flex-col items-center">
+
+      <p className="text-red text-3xl p-8 m-8 border b-red rounded-full">
         Hello, from community page
       </p>
     </main>
+    </>
   );
 };
 
