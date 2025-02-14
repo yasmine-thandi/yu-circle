@@ -20,10 +20,6 @@ const ProfileComp: React.FC = () => {
             Samantha Doe
           </div>
 
-          <button className="mt-2 w-[80%] py-1 rounded-lg border b-black cursor-pointer text-sm bg-white hover:bg-purple transition-colors duration-300">
-            Edit Name
-          </button>
-
           <div>
             <img src={Profile} className="h-60"/>
           </div>
