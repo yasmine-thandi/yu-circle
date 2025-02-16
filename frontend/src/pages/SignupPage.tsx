@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header/Header";
 
-const SignupPage = () => {
+const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
