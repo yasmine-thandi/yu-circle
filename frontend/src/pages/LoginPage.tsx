@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement login logic here
+    // Implement login stuff here
   };
 
   return (
