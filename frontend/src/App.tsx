@@ -10,7 +10,7 @@ import DiscoursePage from './pages/DiscoursePage';
 
 function App() {
   return (
-    <div className="bg-offwhite h-screen w-screen min-w-[1000px]">
+    <div className="bg-offwhite w-screen min-w-[1000px]">
 
         <Routes>
 

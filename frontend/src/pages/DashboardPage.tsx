@@ -9,7 +9,7 @@ const DashboardPage: React.FC = () => {
   return (
     <>
     <Header />
-    <main className="grid grid-cols-2 my-6 mx-12 gap-4">
+    <main className=" bg-offwhite grid grid-cols-2 my-6 mx-12 gap-4">
       <ProfileComp />
       <SettingComp />
       <DiscourseComp />
