@@ -14,7 +14,7 @@ const Header: React.FC = () => {
 
   return (
     <div>
-        <main className="flex flex-grow flex-row justify-between k w-screen h-[90px] pt-6 px-12 min-w-[1000px]">
+        <main className="flex flex-grow flex-row justify-between k w-full h-[90px] pt-6 px-12 min-w-[1000px]">
 
             <img src={Logo} alt="Logo" className="" />
 
