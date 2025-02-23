@@ -37,7 +37,6 @@ const LoginPage: React.FC = () => {
   
       // Get the raw response text
       const rawText = await response.text();
-      console.log("Raw Response Text:", rawText);
   
       // Check if the request was successful
       if (response.ok) {
