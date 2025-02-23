@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      // This proxies any request starting with /profiles to your backend
+      // proxies any api requests to database, prevents direct code exposure (and makes it easier to point elsewhere)
       '/profiles': {
         target: 'http://localhost:8080',
         changeOrigin: true,
