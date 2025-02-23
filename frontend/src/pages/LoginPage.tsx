@@ -7,13 +7,53 @@ const LoginPage: React.FC = () => {
     password: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: implement login stuff here
+    setLoading(true);
+    setErrorMessage("");
+  
+    try {
+      const response = await fetch("/profiles/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+  
+      console.log("Full Response:", response);
+      console.log("Status:", response.status);
+      console.log("Headers:", JSON.stringify([...response.headers]));
+  
+      // Get the raw response text
+      const rawText = await response.text();
+      console.log("Raw Response Text:", rawText);
+  
+      // Check if the request was successful
+      if (response.ok) {
+        console.log("Login successful:", rawText);
+  
+        // Redirect to the home page after successful login
+        window.location.href = "/";
+      } else {
+        throw new Error(rawText || "Login failed");
+      }
+    } catch (error: any) {
+      console.error("Fetch Error:", error);
+      setErrorMessage(error.message || "An error occurred during login.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -22,10 +62,12 @@ const LoginPage: React.FC = () => {
       <div className="flex items-center justify-center p-6">
         <div className="w-full max-w-lg rounded-lg border bg-white p-8 shadow-md">
           <h1 className="mb-4 text-xl font-fancy font-bold">Login</h1>
-          <form action="/login" method="POST" onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <input type="hidden" name="form-type" value="login" />
             <div>
-              <label className="block text-sm font-medium font-fancy text-gray-700">Username</label>
+              <label className="block text-sm font-medium font-fancy text-gray-700">
+                Username
+              </label>
               <input
                 type="text"
                 name="username"
@@ -38,7 +80,9 @@ const LoginPage: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium font-fancy text-gray-700">Password</label>
+              <label className="block text-sm font-medium font-fancy text-gray-700">
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
@@ -50,11 +94,15 @@ const LoginPage: React.FC = () => {
                 autoComplete="current-password"
               />
             </div>
+            {errorMessage && (
+              <p className="text-red-600 text-sm">{errorMessage}</p>
+            )}
             <button
               type="submit"
               className="w-full rounded-lg bg-[var(--color-red)] p-3 font-fancy text-white transition hover:bg-red-700"
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
         </div>
