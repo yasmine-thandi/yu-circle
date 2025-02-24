@@ -116,4 +116,15 @@ public class Profile {
     public void setCreatedAt(java.sql.Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
 }
