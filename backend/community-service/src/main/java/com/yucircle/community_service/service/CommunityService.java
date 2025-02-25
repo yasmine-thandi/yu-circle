@@ -7,31 +7,37 @@ import org.springframework.stereotype.Service;
 
 import com.yucircle.community_service.model.Profile;
 import com.yucircle.community_service.model.ProfileTagsDTO;
+import com.yucircle.community_service.model.Tag;
 import com.yucircle.community_service.repositories.ProfileRepository;
 import com.yucircle.community_service.repositories.ProfileTagRepository;
+import com.yucircle.community_service.repositories.TagRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class CommunityService {
 	
 	@Autowired
     private ProfileRepository profileRepository;
-    
-    @Autowired
-    private ProfileTagRepository pTagRepository;
+	
+	@Autowired
+	private TagRepository tagRepository;
+	
+	@Autowired
+	private ProfileTagRepository ptRepository;
 	
 	/**
 	 * Create list of community 'profiles' 
 	 * Profiles (or ProfileTagsDTO) contains a username and a set of associated tags
 	 * @return list of all ProfileTagsDTO 
 	 */
+    @Transactional
 	public List<ProfileTagsDTO> getDefaultProfiles() {
 		List<ProfileTagsDTO> list = new ArrayList<ProfileTagsDTO>();
 		
 		for (Profile user: profileRepository.findAll()) 
 		{
-			ProfileTagsDTO pt = new ProfileTagsDTO();
-			pt.setUsername(user.getUsername());
-			pt.setTags(pTagRepository.findTagsByUsername(user.getUsername()));
+			ProfileTagsDTO pt = createProfileTagsDTO(user);
 			list.add(pt);
 		}
 		
@@ -46,6 +52,7 @@ public class CommunityService {
 	 * @return list of recommended ProfileTagsDTO
 	 * @throws Exception if username does not exist
 	 */
+    @Transactional
 	public List<ProfileTagsDTO> getRecommendedProfiles(String username) throws Exception {
 		
 		//check if username exists
@@ -54,34 +61,41 @@ public class CommunityService {
 		}
 		
 		//get all user tags
-		Set<String> userTags = pTagRepository.findTagsByUsername(username);
+		Set<Tag> userTags = profileRepository.findById(username).get().getTags();
 		
-		//get all users with shared tags
-        List<Object[]> results = pTagRepository.findUsersByTags(userTags);
-        
-        //build recommendations
-        
-        Map<String, Set<String>> userTagsMap = new HashMap<>();
-        
-        //filter through results, add users and tags to map, ignore given username
-        for (Object[] result : results) {        	
-            String user = (String) result[0];
-            String tag = (String) result[1];
-            if (!user.equals(username)) {
-                userTagsMap.computeIfAbsent(user, k -> new HashSet<>()).add(tag);
-            }
+		//build set of recommendations
+		Set<ProfileTagsDTO> recommendations = new HashSet<>();
+		
+		//get all users sharing username's tags
+        for (Tag tag : userTags) {
+        	//loop through all profiles listed under tag
+        	for (Profile p : tagRepository.findById(tag.getTag()).get().getProfiles()) {
+        		//add if profile doesn't belong to username
+        		if (!p.getUsername().equals(username)) {
+        			ProfileTagsDTO pt = createProfileTagsDTO(p);
+        			recommendations.add(pt);
+                }
+        	}
         }
         
-        //create list
+        //convert to list
         List<ProfileTagsDTO> listOfRecommendedUsers = new ArrayList<>();
-        for (Map.Entry<String, Set<String>> entry : userTagsMap.entrySet()) {
-            ProfileTagsDTO pt = new ProfileTagsDTO();
-            pt.setUsername(entry.getKey());
-            pt.setTags(entry.getValue());
-            listOfRecommendedUsers.add(pt);
-        }
+        listOfRecommendedUsers.addAll(recommendations);
 		
 		return listOfRecommendedUsers;
 	}
+    
+    /**
+     * Convert Profile entity into DTO
+     * Note: Entity to DTO conversion is required if returning a list of 'entities'
+     * @param profile entity to convert into DTO
+     * @return new ProfileTagsDTO
+     */
+    private ProfileTagsDTO createProfileTagsDTO(Profile profile) {
+    	ProfileTagsDTO pt = new ProfileTagsDTO();
+		pt.setUsername(profile.getUsername());
+		pt.setTags(profile.getTags());
+		return pt;
+    }
 	
 }

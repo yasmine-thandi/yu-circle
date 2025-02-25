@@ -1,12 +1,12 @@
 package com.yucircle.community_service.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class ProfileTagsDTO {
 	
 	private String username;
-    private Set<String> tags;
-    
+    private Set<String> tags = new HashSet<String>();
     
     public ProfileTagsDTO() {}
 
@@ -27,7 +27,14 @@ public class ProfileTagsDTO {
         return tags;
     }
 
-    public void setTags(Set<String> tags) {
+    public void setTagsString(Set<String> tags) {
         this.tags = tags;
+    }
+    
+    public void setTags(Set<Tag> tags) {
+    	for (Tag t : tags) 
+    	{
+    		this.tags.add(t.getTag());
+    	}
     }
 }
