@@ -4,6 +4,7 @@ import com.yucircle.profileapp.model.Profile;
 import com.yucircle.profileapp.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -69,4 +70,29 @@ public class ProfileService {
         }
         return false; // User not found, or does not exist.
     }
+    
+ // Find user by email
+    public Profile findByEmail(String email) {
+        return profileRepository.findByEmail(email);
+    }
+
+    // Save profile updates
+    public void saveProfile(Profile profile) {
+        profileRepository.save(profile);
+    }
+
+ // Reset password using token without BCryptPasswordEncoder
+    public boolean resetPassword(String token, String newPassword) {
+        Optional<Profile> optionalProfile = profileRepository.findByResetToken(token);
+        if (optionalProfile.isPresent()) {
+            Profile profile = optionalProfile.get();
+            profile.setPassword(newPassword); 
+            profile.setResetToken(null);
+            profileRepository.save(profile);
+            return true;
+        }
+        return false;
+    }
+
+
 }
