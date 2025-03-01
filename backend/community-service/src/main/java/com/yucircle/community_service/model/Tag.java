@@ -3,11 +3,7 @@ package com.yucircle.community_service.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tags")
@@ -19,10 +15,11 @@ public class Tag {
 	@ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Profile> profiles = new HashSet<>();
 	
-	public Tag() {}
-
+	
+	protected Tag() {}
+	
 	public Tag(String tag) {
-		this.tag = tag;
+		this.tag = tag;	
 	}
 
 	public String getTag() {

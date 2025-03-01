@@ -92,10 +92,8 @@ public class CommunityService {
      * @return new ProfileTagsDTO
      */
     private ProfileTagsDTO createProfileTagsDTO(Profile profile) {
-    	ProfileTagsDTO pt = new ProfileTagsDTO();
-		pt.setUsername(profile.getUsername());
-		pt.setTags(profile.getTags());
+    	ProfileTagsDTO pt = new ProfileTagsDTO(profile);
 		return pt;
     }
-	
+    
 }

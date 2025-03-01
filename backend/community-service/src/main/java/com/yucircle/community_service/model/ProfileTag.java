@@ -1,12 +1,6 @@
 package com.yucircle.community_service.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "profile_tags")
@@ -25,8 +19,8 @@ public class ProfileTag {
     private Tag tag;
     
     
-    public ProfileTag() {}
-
+    protected ProfileTag() {}
+    
 	public ProfileTag(Long id, Profile profile, Tag tag) {
 		this.id = id;
 		this.profile = profile;

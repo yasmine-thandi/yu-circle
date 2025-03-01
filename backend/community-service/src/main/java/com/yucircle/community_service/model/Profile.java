@@ -3,13 +3,7 @@ package com.yucircle.community_service.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "profiles")
@@ -17,6 +11,26 @@ public class Profile {
 
 	@Id
 	private String username;
+
+    @Column(unique = true)
+    private String yorkId;
+
+    @Column(nullable = false)
+    private String firstname;
+
+    @Column(nullable = false)
+    private String lastname;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(unique = true)
+    private String phoneNumber;
+
+    private Boolean isAdmin = false;
+
+    @Column(updatable = false)
+    private java.sql.Timestamp createdAt;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -26,12 +40,8 @@ public class Profile {
     private Set<Tag> tags = new HashSet<>();
 	
 	
-	public Profile() {}
+	protected Profile() {}
 	
-	public Profile(String username) {
-		this.username = username;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -40,6 +50,62 @@ public class Profile {
 		this.username = username;
 	}
 	
+	public String getYorkId() {
+		return yorkId;
+	}
+
+	public void setYorkId(String yorkId) {
+		this.yorkId = yorkId;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public java.sql.Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(java.sql.Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	public Set<Tag> getTags() {
 		return tags;
 	}
