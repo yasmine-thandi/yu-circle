@@ -33,6 +33,7 @@ public class CommunityService {
 	 */
     @Transactional
 	public List<ProfileTagsDTO> getDefaultProfiles() {
+    	
 		List<ProfileTagsDTO> list = new ArrayList<ProfileTagsDTO>();
 		
 		for (Profile user: profileRepository.findAll()) 
@@ -96,4 +97,27 @@ public class CommunityService {
 		return pt;
     }
     
+    /**
+     * Filter through Profiles to find users with given tag
+     * @param tag to filter for
+     * @return list of profiles with tag, or empty list if tag does not exist
+     */
+    @Transactional
+	public List<ProfileTagsDTO> filterTags(String tag) {
+    	
+    	List<ProfileTagsDTO> list = new ArrayList<>();
+    	
+    	//return empty list if Tag does not exist
+    	if (!tagRepository.existsById(tag)) {
+    		return list;
+    	}
+    	
+    	for (Profile p : tagRepository.findById(tag).get().getProfiles()) {
+    		ProfileTagsDTO pt = createProfileTagsDTO(p);
+    		list.add(pt);
+    	}
+    	    	
+    	return list;
+    }
+	
 }
