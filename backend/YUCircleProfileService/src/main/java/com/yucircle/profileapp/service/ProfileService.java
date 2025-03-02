@@ -70,11 +70,6 @@ public class ProfileService {
         return false; // User not found, or does not exist.
     }
 
-    // Find user by email
-    public Profile findByEmail(String email) {
-        return profileRepository.findByEmail(email);
-    }
-
     // Save profile updates
     public void saveProfile(Profile profile) {
         profileRepository.save(profile);

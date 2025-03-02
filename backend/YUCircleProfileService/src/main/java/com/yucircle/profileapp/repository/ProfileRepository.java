@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, String> {
-	Optional<Profile> findByResetToken(String resetToken);
-	Profile findByEmail(String email);
 
 }
