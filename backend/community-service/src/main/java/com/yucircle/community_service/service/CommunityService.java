@@ -119,5 +119,22 @@ public class CommunityService {
     	    	
     	return list;
     }
+
+    /**
+     * Queries profiles to search and find closest match
+     * @param query to search 
+     * @return list of possible matching profiles
+     */
+    @Transactional
+	public List<ProfileTagsDTO> queryProfile(String query) {
+		
+		List<ProfileTagsDTO> list = new ArrayList<>();
+		
+		for (Profile p : profileRepository.findProfileBySearch(query)) {
+			list.add(createProfileTagsDTO(p));
+		}
+		
+		return list;
+	}
 	
 }

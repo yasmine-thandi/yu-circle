@@ -40,4 +40,12 @@ public class CommunityProfileController {
 	public List<ProfileTagsDTO> filterTags(@RequestParam String tag) {
 		return commService.filterTags(tag);
 	}
+	
+	//Return potential matches to search query
+	//URL Example: localhost:8081/community/search?query=j
+	@GetMapping("/search")
+	public List<ProfileTagsDTO> searchUser(@RequestParam String query) {
+		return commService.queryProfile(query);
+	}
+
 }
