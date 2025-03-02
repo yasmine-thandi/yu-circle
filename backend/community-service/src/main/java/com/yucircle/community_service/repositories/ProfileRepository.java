@@ -12,7 +12,7 @@ public interface ProfileRepository extends JpaRepository<Profile, String> {
 	
 	//Custom Queries
 	
-	//Find profiles that could fulfill query, currently searches through first and last names
+	//Find profiles that could fulfill search request, currently searches through first and last names
 	@Query("SELECT p FROM Profile p WHERE " + 
 	"LOWER(p.firstname) LIKE LOWER(CONCAT(:searchText, '%')) OR " + 
 	"LOWER(p.lastname) LIKE LOWER(CONCAT(:searchText, '%'))")

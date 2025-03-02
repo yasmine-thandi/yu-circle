@@ -9,7 +9,6 @@ import com.yucircle.community_service.model.Profile;
 import com.yucircle.community_service.model.ProfileTagsDTO;
 import com.yucircle.community_service.model.Tag;
 import com.yucircle.community_service.repositories.ProfileRepository;
-import com.yucircle.community_service.repositories.ProfileTagRepository;
 import com.yucircle.community_service.repositories.TagRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,12 +22,10 @@ public class CommunityService {
 	@Autowired
 	private TagRepository tagRepository;
 	
-	@Autowired
-	private ProfileTagRepository ptRepository;
 	
 	/**
 	 * Create list of community 'profiles' 
-	 * Profiles (or ProfileTagsDTO) contains a username and a set of associated tags
+	 * Profiles (or ProfileTagsDTO) contains profile info and a set of associated tags
 	 * @return list of all ProfileTagsDTO 
 	 */
     @Transactional
@@ -47,8 +44,8 @@ public class CommunityService {
 	
 	/**
 	 * Create list of Recommended Profiles
-	 * Recommendations are based off username's tags
-	 * Any other username with a matching tag will get added to the list
+	 * Recommendations are based off profile's tags
+	 * Any other profiles with any matching tag will get added to the list
 	 * @param username, username to recommend profiles to
 	 * @return list of recommended ProfileTagsDTO
 	 * @throws Exception if username does not exist
@@ -122,7 +119,7 @@ public class CommunityService {
 
     /**
      * Queries profiles to search and find closest match
-     * @param query to search 
+     * @param query to search/match with
      * @return list of possible matching profiles
      */
     @Transactional
