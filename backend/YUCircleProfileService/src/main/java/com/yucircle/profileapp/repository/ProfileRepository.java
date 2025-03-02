@@ -2,8 +2,6 @@ package com.yucircle.profileapp.repository;
 
 import com.yucircle.profileapp.model.Profile;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

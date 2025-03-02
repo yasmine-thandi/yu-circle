@@ -16,11 +16,9 @@ import java.util.Optional;
 public class ProfileController {
 
     private final ProfileService profileService;
-    private final EmailService emailService;
 
     public ProfileController(ProfileService profileService, EmailService emailService) {
         this.profileService = profileService;
-        this.emailService = emailService;
     }
 
     // @GetMapping for GET requests.
