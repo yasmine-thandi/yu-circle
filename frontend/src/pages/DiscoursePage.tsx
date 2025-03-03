@@ -117,7 +117,7 @@ const DiscoursePage: React.FC = () => {
 
           {/* Search filter */}
           <input
-            className="w-full p-2 border rounded mb-4"
+            className="w-full p-2 border rounded mb-4 bg-white"
             placeholder="Search posts..."
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
