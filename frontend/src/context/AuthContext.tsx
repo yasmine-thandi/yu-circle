@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       const rawText = await response.text();
       
-      if (!response.ok || rawText.trim() !== "authentication successful") {
+      if (!response.ok || rawText.trim() !== "Authentication successful") {
         throw new Error(rawText || "Invalid credentials");
       }
 
