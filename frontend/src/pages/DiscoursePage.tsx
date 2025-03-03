@@ -153,7 +153,7 @@ const DiscoursePage: React.FC = () => {
                       ) : (
                         <AiOutlineLike />
                       )}
-                      {post.likes}
+                      &nbsp;{post.likes}
                     </button>
                     <button
                       onClick={() =>
