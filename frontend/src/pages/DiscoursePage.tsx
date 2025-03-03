@@ -19,19 +19,18 @@ interface Post {
 }
 
 const DiscoursePage: React.FC = () => {
-  // Start with two fake posts in local state
   const [posts, setPosts] = useState<Post[]>([
     {
       id: 1,
       content:
-        "Hi I am looking for a mentor to study for my EECS 2011 with! Is anyone intrested?",
+        "Hi I am looking for a mentor to study for my EECS 2011 with! Is anyone interested?",
       likes: 0,
       liked: false,
       comments: [
         {
           id: 101,
           content:
-            "Hi! I am your classmate Megan. send me a message here and we can connect",
+            "Hi! I am your classmate Megan. Send me a message here and we can connect",
           likes: 0,
           liked: false,
         },
@@ -40,7 +39,7 @@ const DiscoursePage: React.FC = () => {
     {
       id: 2,
       content:
-        "I am looking for a master student as a mentor to help with a passion project. is anyone intrested?",
+        "I am looking for a master's student as a mentor to help with a passion project. Is anyone interested?",
       likes: 0,
       liked: false,
       comments: [],
@@ -49,17 +48,16 @@ const DiscoursePage: React.FC = () => {
 
   const [newPost, setNewPost] = useState("");
   const [filter, setFilter] = useState("");
-  // Holds the comment input (per post)
   const [commentInputs, setCommentInputs] = useState<{ [key: number]: string }>(
     {}
   );
 
-  // Create a new post (front-end only)
+  const [isModalOpen, setIsModalOpen] = useState(false); // Track modal visibility
+
   const createPost = () => {
     if (!newPost.trim()) return;
     const newId = Math.max(...posts.map((p) => p.id)) + 1;
-    const updatedPosts = [
-      ...posts,
+    setPosts([
       {
         id: newId,
         content: newPost,
@@ -67,99 +65,10 @@ const DiscoursePage: React.FC = () => {
         liked: false,
         comments: [],
       },
-    ];
-    setPosts(updatedPosts);
+      ...posts,
+    ]);
     setNewPost("");
-  };
-
-  // Delete a post
-  const deletePost = (id: number) => {
-    setPosts(posts.filter((post) => post.id !== id));
-  };
-
-  // Toggle like/unlike a post
-  const toggleLikePost = (id: number) => {
-    const updated = posts.map((post) => {
-      if (post.id === id) {
-        // If post is liked, undo it; if unliked, like it
-        return {
-          ...post,
-          liked: !post.liked,
-          likes: post.liked ? post.likes - 1 : post.likes + 1,
-        };
-      }
-      return post;
-    });
-    setPosts(updated);
-  };
-
-  // Add a new comment to a post
-  const createComment = (postId: number) => {
-    const content = commentInputs[postId]?.trim();
-    if (!content) return;
-
-    setPosts((prevPosts) =>
-      prevPosts.map((post) => {
-        if (post.id === postId) {
-          const newCommentId = post.comments.length
-            ? Math.max(...post.comments.map((c) => c.id)) + 1
-            : 1;
-          const newComment: Comment = {
-            id: newCommentId,
-            content,
-            likes: 0,
-            liked: false,
-          };
-          return {
-            ...post,
-            comments: [...post.comments, newComment],
-          };
-        }
-        return post;
-      })
-    );
-
-    // Clear the comment input for this post
-    setCommentInputs({ ...commentInputs, [postId]: "" });
-  };
-
-  // Delete a comment from a post
-  const deleteComment = (postId: number, commentId: number) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) => {
-        if (post.id === postId) {
-          return {
-            ...post,
-            comments: post.comments.filter((c) => c.id !== commentId),
-          };
-        }
-        return post;
-      })
-    );
-  };
-
-  // Toggle like/unlike a comment
-  const toggleLikeComment = (postId: number, commentId: number) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) => {
-        if (post.id === postId) {
-          return {
-            ...post,
-            comments: post.comments.map((comment) => {
-              if (comment.id === commentId) {
-                return {
-                  ...comment,
-                  liked: !comment.liked,
-                  likes: comment.liked ? comment.likes - 1 : comment.likes + 1,
-                };
-              }
-              return comment;
-            }),
-          };
-        }
-        return post;
-      })
-    );
+    setIsModalOpen(false);
   };
 
   return (
@@ -169,21 +78,42 @@ const DiscoursePage: React.FC = () => {
         <div className="max-w-2xl mx-auto p-4">
           <h1 className="text-2xl font-bold mb-4">Discourse Page</h1>
 
-          {/* Post bar to create new posts */}
-          <div className="mb-4">
-            <textarea
-              className="w-full p-2 border rounded"
-              placeholder="Write a post..."
-              value={newPost}
-              onChange={(e) => setNewPost(e.target.value)}
-            />
-            <button
-              className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-              onClick={createPost}
-            >
-              Post
-            </button>
-          </div>
+          {/* super cool floating button for creating posts*/}
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="fixed bottom-20 right-20 w-20 h-20 rounded-full bg-[var(--color-red)] text-2xl flex items-center justify-center font-fancy text-white transition hover:bg-red-700"
+          >
+            +
+          </button>
+
+          {/* popup dialog box*/}
+          {isModalOpen && (
+            <div className="fixed inset-0 backdrop-blur-[0.5px] flex items-start justify-center pt-30">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-96 border">
+                <h2 className="text-lg font-semibold mb-4">Create a Post</h2>
+                <textarea
+                  className="w-full h-30 p-2 border rounded-lg"
+                  placeholder="Write a post..."
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                />
+                <div className="flex justify-end mt-2 space-x-2">
+                  <button
+                    className="w-20 rounded-lg bg-gray-400 p-3 font-fancy text-white transition hover:bg-red-700"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="w-20 rounded-lg bg-[var(--color-red)] p-3 font-fancy text-white transition hover:bg-red-700"
+                    onClick={createPost}
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Search filter */}
           <input
@@ -193,7 +123,7 @@ const DiscoursePage: React.FC = () => {
             onChange={(e) => setFilter(e.target.value)}
           />
 
-          {posts?.length > 0 ? (
+          {posts.length > 0 ? (
             posts
               .filter((post) =>
                 post.content.toLowerCase().includes(filter.toLowerCase())
@@ -202,9 +132,20 @@ const DiscoursePage: React.FC = () => {
                 <div key={post.id} className="bg-white p-4 rounded shadow mb-4">
                   <p>{post.content}</p>
                   <div className="flex items-center mt-2">
-                    {/* Like post button */}
                     <button
-                      onClick={() => toggleLikePost(post.id)}
+                      onClick={() =>
+                        setPosts((prev) =>
+                          prev.map((p) =>
+                            p.id === post.id
+                              ? {
+                                ...p,
+                                liked: !p.liked,
+                                likes: p.liked ? p.likes - 1 : p.likes + 1,
+                              }
+                              : p
+                          )
+                        )
+                      }
                       className="mr-4 flex items-center"
                     >
                       {post.liked ? (
@@ -214,17 +155,17 @@ const DiscoursePage: React.FC = () => {
                       )}
                       {post.likes}
                     </button>
-
-                    {/* Delete post button */}
                     <button
-                      onClick={() => deletePost(post.id)}
+                      onClick={() =>
+                        setPosts((prev) => prev.filter((p) => p.id !== post.id))
+                      }
                       className="text-red-500 flex items-center"
                     >
                       <FaTrash />
                     </button>
                   </div>
 
-                  {/* Comments section */}
+                  {/* Comments Section */}
                   <div className="mt-4 ml-4">
                     <h3 className="font-semibold mb-2">Comments:</h3>
                     {post.comments.map((comment) => (
@@ -236,7 +177,26 @@ const DiscoursePage: React.FC = () => {
                         <div className="flex items-center mt-2">
                           <button
                             onClick={() =>
-                              toggleLikeComment(post.id, comment.id)
+                              setPosts((prev) =>
+                                prev.map((p) =>
+                                  p.id === post.id
+                                    ? {
+                                      ...p,
+                                      comments: p.comments.map((c) =>
+                                        c.id === comment.id
+                                          ? {
+                                            ...c,
+                                            liked: !c.liked,
+                                            likes: c.liked
+                                              ? c.likes - 1
+                                              : c.likes + 1,
+                                          }
+                                          : c
+                                      ),
+                                    }
+                                    : p
+                                )
+                              )
                             }
                             className="mr-4 flex items-center"
                           >
@@ -248,7 +208,20 @@ const DiscoursePage: React.FC = () => {
                             {comment.likes}
                           </button>
                           <button
-                            onClick={() => deleteComment(post.id, comment.id)}
+                            onClick={() =>
+                              setPosts((prev) =>
+                                prev.map((p) =>
+                                  p.id === post.id
+                                    ? {
+                                      ...p,
+                                      comments: p.comments.filter(
+                                        (c) => c.id !== comment.id
+                                      ),
+                                    }
+                                    : p
+                                )
+                              )
+                            }
                             className="text-red-500 flex items-center"
                           >
                             <FaTrash />
@@ -257,7 +230,7 @@ const DiscoursePage: React.FC = () => {
                       </div>
                     ))}
 
-                    {/* New comment input */}
+                    {/* New Comment Input */}
                     <div className="mt-2">
                       <textarea
                         className="w-full p-2 border rounded"
@@ -272,7 +245,29 @@ const DiscoursePage: React.FC = () => {
                       />
                       <button
                         className="mt-1 bg-green-500 text-white px-3 py-1 rounded"
-                        onClick={() => createComment(post.id)}
+                        onClick={() => {
+                          if (commentInputs[post.id]?.trim()) {
+                            setPosts((prev) =>
+                              prev.map((p) =>
+                                p.id === post.id
+                                  ? {
+                                    ...p,
+                                    comments: [
+                                      ...p.comments,
+                                      {
+                                        id: Date.now(),
+                                        content: commentInputs[post.id],
+                                        likes: 0,
+                                        liked: false,
+                                      },
+                                    ],
+                                  }
+                                  : p
+                              )
+                            );
+                            setCommentInputs({ ...commentInputs, [post.id]: "" });
+                          }
+                        }}
                       >
                         Comment
                       </button>
