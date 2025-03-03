@@ -16,9 +16,7 @@ const ProfileMenu: React.FC = () => {
         navigate(path);
         closeDropdown();
     };
-
-    console.log(user);
-
+    
     return (
         <div className="relative" ref={dropdownRef}>
             {/* Profile Icon */}
