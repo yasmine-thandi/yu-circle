@@ -99,7 +99,7 @@ const DiscoursePage: React.FC = () => {
                 />
                 <div className="flex justify-end mt-2 space-x-2">
                   <button
-                    className="w-20 rounded-lg bg-gray-400 p-3 font-fancy text-white transition hover:bg-red-700"
+                    className="w-20 rounded-lg bg-gray-400 p-3 font-fancy text-white transition hover:bg-gray-700"
                     onClick={() => setIsModalOpen(false)}
                   >
                     Cancel
