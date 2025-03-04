@@ -21,8 +21,7 @@ public class ProfileTag {
     
     protected ProfileTag() {}
     
-	public ProfileTag(Long id, Profile profile, Tag tag) {
-		this.id = id;
+	public ProfileTag(Profile profile, Tag tag) {
 		this.profile = profile;
 		this.tag = tag;
 	}
@@ -50,5 +49,9 @@ public class ProfileTag {
 	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
-    
+
+	@Override
+	public String toString() {
+		return "ProfileTag [profile=" + profile + ", tag=" + tag + "]";
+	}    
 }
